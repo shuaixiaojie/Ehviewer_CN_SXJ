@@ -885,8 +885,6 @@ public class FavoritesScene extends BaseScene implements
             return;
         }
 
-        Log.e("--------------",position+"");
-
         if (!mRecyclerView.isInCustomChoice()) {
             switch (position) {
                 case 0: // Go to
@@ -1642,7 +1640,7 @@ public class FavoritesScene extends BaseScene implements
 
                 if ((mHelper.lastHref==null||mHelper.lastHref.isEmpty())&&(mHelper.firstHref==null||mHelper.firstHref.isEmpty())) { // only one page
                     if (mHelper.getDataAtEx(0)==null) return null; // no gallery
-                    return mHelper.getDataAtEx((int)(Math.random()*mHelper.size())-1);
+                    return mHelper.getDataAtEx((int)(Math.random()*mHelper.size()));
                 }
                 else if (mHelper.lastHref==null||mHelper.lastHref.isEmpty()) { //many pages but user at the last page
                     List<GalleryInfo> gInfoL =EhEngine.getAllFavorites(mOkHttpClient,mHelper.lastHref).galleryInfoList;
@@ -1664,8 +1662,8 @@ public class FavoritesScene extends BaseScene implements
                 }
 
                 long gidDiff = firstGInfo.gid - lastGInfo.gid;
-                List<GalleryInfo> rGInfoL =EhEngine.getAllFavorites(mOkHttpClient,url + "&next=" + (firstGInfo.gid + gidDiff/100*((int)(Math.random()*100)-1))+1).galleryInfoList;
-                return rGInfoL.get((int)(Math.random()*rGInfoL.size())-1);
+                List<GalleryInfo> rGInfoL =EhEngine.getAllFavorites(mOkHttpClient,url + "&next=" + (firstGInfo.gid + gidDiff/100*((int)(Math.random()*100)))+1).galleryInfoList;
+                return rGInfoL.get((int)(Math.random()*rGInfoL.size()));
             } catch (Throwable e) {
                 throw new RuntimeException(e);
             }
@@ -1682,6 +1680,7 @@ public class FavoritesScene extends BaseScene implements
 
             //抄onItemClick(EasyRecyclerView parent, View view, int position, long id)的跳轉功能
             if (info==null) return;
+            Log.e("-------------",info.title);
             Bundle args = new Bundle();
             args.putString(GalleryDetailScene.KEY_ACTION, GalleryDetailScene.ACTION_GALLERY_INFO);
             args.putParcelable(GalleryDetailScene.KEY_GALLERY_INFO, info);
