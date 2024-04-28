@@ -1662,7 +1662,8 @@ public class FavoritesScene extends BaseScene implements
                 }
 
                 long gidDiff = firstGInfo.gid - lastGInfo.gid;
-                List<GalleryInfo> rGInfoL =EhEngine.getAllFavorites(mOkHttpClient,url + "&next=" + (firstGInfo.gid + gidDiff/100*((int)(Math.random()*100)))+1).galleryInfoList;
+                long block = gidDiff/50;
+                List<GalleryInfo> rGInfoL =EhEngine.getAllFavorites(mOkHttpClient,url + "&next=" + (firstGInfo.gid + gidDiff/block*((int)(Math.random()*block)))+1).galleryInfoList;
                 return rGInfoL.get((int)(Math.random()*rGInfoL.size()));
             } catch (Throwable e) {
                 throw new RuntimeException(e);
@@ -1680,7 +1681,6 @@ public class FavoritesScene extends BaseScene implements
 
             //抄onItemClick(EasyRecyclerView parent, View view, int position, long id)的跳轉功能
             if (info==null) return;
-            Log.e("-------------",info.title);
             Bundle args = new Bundle();
             args.putString(GalleryDetailScene.KEY_ACTION, GalleryDetailScene.ACTION_GALLERY_INFO);
             args.putParcelable(GalleryDetailScene.KEY_GALLERY_INFO, info);
