@@ -1646,7 +1646,6 @@ public class FavoritesScene extends BaseScene implements
                 } else {
                     gInfoL = EhDB.searchLocalFavorites(keyword);
                 }
-                Log.e("---------------",gInfoL.size()+"");
                 return gInfoL.get((int)(Math.random()*gInfoL.size()));
             }
             // cloud favorities
