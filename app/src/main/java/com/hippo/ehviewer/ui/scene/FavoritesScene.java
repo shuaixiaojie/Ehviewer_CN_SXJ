@@ -87,6 +87,7 @@ import com.hippo.ehviewer.widget.EhDrawerLayout;
 import com.hippo.ehviewer.widget.GalleryInfoContentHelper;
 import com.hippo.ehviewer.widget.JumpDateSelector;
 import com.hippo.ehviewer.widget.SearchBar;
+import com.hippo.network.UrlBuilder;
 import com.hippo.refreshlayout.RefreshLayout;
 import com.hippo.ripple.Ripple;
 import com.hippo.scene.Announcer;
@@ -899,7 +900,7 @@ public class FavoritesScene extends BaseScene implements
                     if (mHelper==null||!mHelper.canGoTo()) {
                         break;
                     }
-                    RandomFavority mRandomFavority = new RandomFavority(context,mHelper);
+                    RandomFavority mRandomFavority = new RandomFavority(context,mHelper,mUrlBuilder);
                     mRandomFavority.execute();
                     break;
                 case 6: // add share
@@ -1625,15 +1626,30 @@ public class FavoritesScene extends BaseScene implements
     private class RandomFavority extends AsyncTask<Void, Void, GalleryInfo> {
         OkHttpClient mOkHttpClient;
         FavoritesHelper mHelper;
+        FavListUrlBuilder mUrlBuilder;
 
-        RandomFavority(Context context,FavoritesHelper helper) {
+        RandomFavority(Context context,FavoritesHelper helper,FavListUrlBuilder urlBuilder) {
             mOkHttpClient = EhApplication.getOkHttpClient(context);
             mHelper = helper;
+            mUrlBuilder = urlBuilder;
         }
 
         @Override
         protected GalleryInfo doInBackground(Void... v) {
             publishProgress();
+            // local favorities
+            if (mUrlBuilder.getFavCat()==FavListUrlBuilder.FAV_CAT_LOCAL) {
+                String keyword = mUrlBuilder.getKeyword();
+                List<GalleryInfo> gInfoL;
+                if (TextUtils.isEmpty(keyword)) {
+                    gInfoL = EhDB.getAllLocalFavorites();
+                } else {
+                    gInfoL = EhDB.searchLocalFavorites(keyword);
+                }
+                Log.e("---------------",gInfoL.size()+"");
+                return gInfoL.get((int)(Math.random()*gInfoL.size()));
+            }
+            // cloud favorities
             try {
                 GalleryInfo lastGInfo = null, firstGInfo = null;
                 String url = "";
@@ -1643,7 +1659,6 @@ public class FavoritesScene extends BaseScene implements
                     return mHelper.getDataAtEx((int)(Math.random()*mHelper.size()));
                 }
                 else if (mHelper.lastHref==null||mHelper.lastHref.isEmpty()) { //many pages but user at the last page
-                    List<GalleryInfo> gInfoL =EhEngine.getAllFavorites(mOkHttpClient,mHelper.lastHref).galleryInfoList;
                     lastGInfo = mHelper.getDataAtEx(mHelper.size()-1);
                     firstGInfo = EhEngine.getAllFavorites(mOkHttpClient,mHelper.firstHref).galleryInfoList.get(0);
                     url = mHelper.firstHref;
