@@ -32,9 +32,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import okhttp3.Dns;
 import okhttp3.HttpUrl;
@@ -49,9 +51,39 @@ public class EhDns implements Dns {
     static {
         Map<String, List<InetAddress>> map = new HashMap<>();
         if (Settings.getBuiltInHosts()){
-            put(map, "e-hentai.org",  "104.20.18.168","104.20.19.168","172.67.2.238");
+            put(map, "e-hentai.org",
+                    "104.20.18.168",
+                    "104.20.19.168",
+                    "172.67.2.238",
+                    "178.162.139.11",
+                    "178.162.139.12",
+                    "178.162.139.13",
+                    "178.162.139.14",
+                    "178.162.139.15",
+                    "178.162.139.16",
+                    "178.162.139.33",
+                    "178.162.139.34",
+                    "178.162.139.36",
+                    "178.162.145.131",
+                    "178.162.145.132",
+                    "178.162.145.152",
+                    "37.48.89.1",
+                    "37.48.89.13",
+                    "37.48.89.14",
+                    "37.48.89.15",
+                    "37.48.89.2",
+                    "37.48.89.20",
+                    "37.48.89.25",
+                    "37.48.89.26",
+                    "37.48.89.3",
+                    "81.171.10.49",
+                    "81.171.10.51",
+                    "81.171.10.53"
+                    );
             put(map, "repo.e-hentai.org", "94.100.28.57", "94.100.29.73");
             put(map, "forums.e-hentai.org", "94.100.18.243");
+            put(map, "upld.e-hentai.org", "94.100.18.249","94.100.18.247");
+            put(map, "upld.exhentai.org", "178.175.132.22","178.175.129.254","178.175.128.254");
             put(map, "ehgt.org", "37.48.89.44", "81.171.10.48", "178.162.139.24", "178.162.140.212"
                     , "2001:1af8:4700:a062:8::47de", "2001:1af8:4700:a062:9::47de", "2001:1af8:4700:a0c9:4::47de", "2001:1af8:4700:a0c9:3::47de");
             put(map, "gt0.ehgt.org", "37.48.89.44", "81.171.10.48", "178.162.139.24", "178.162.140.212"
@@ -68,9 +100,34 @@ public class EhDns implements Dns {
         }
 
         if (Settings.getBuiltEXHosts()){
-            put(map, "exhentai.org", "178.175.128.252", "178.175.129.252", "178.175.129.254", "178.175.128.254",
-                    "178.175.132.20", "178.175.132.22","172.64.206.24","172.64.207.24");
-            put(map, "s.exhentai.org", "178.175.132.22", "178.175.128.254", "178.175.129.254");
+            put(map, "exhentai.org",
+                "178.175.128.251",
+                "178.175.128.252",
+                "178.175.128.253",
+                "178.175.128.254",
+                "178.175.129.251",
+                "178.175.129.252",
+                "178.175.129.253",
+                "178.175.129.254",
+                "178.175.132.19",
+                "178.175.132.20",
+                "178.175.132.21",
+                "178.175.132.22"
+               );
+            put(map, "s.exhentai.org",
+                "178.175.128.251",
+                "178.175.128.252",
+                "178.175.128.253",
+                "178.175.128.254",
+                "178.175.129.251",
+                "178.175.129.252",
+                "178.175.129.253",
+                "178.175.129.254",
+                "178.175.132.19",
+                "178.175.132.20",
+                "178.175.132.21",
+                "178.175.132.22"
+               );
         }
 
         builtInHosts = map;
@@ -102,22 +159,27 @@ public class EhDns implements Dns {
 
         List<InetAddress> inetAddresses = (List<InetAddress>) hosts.get(hostname);
         if (inetAddresses != null) {
+            Collections.shuffle(inetAddresses, new Random(System.currentTimeMillis()));
             return inetAddresses;
         }
         if (Settings.getBuiltInHosts() || Settings.getBuiltEXHosts()) {
             inetAddresses = builtInHosts.get(hostname);
             if (inetAddresses != null) {
+                Collections.shuffle(inetAddresses, new Random(System.currentTimeMillis()));
                 return inetAddresses;
             }
         }
         if (Settings.getDoH()) {
             inetAddresses = dnsOverHttps.lookup(hostname);
-            if (inetAddresses != null && inetAddresses.size() > 0) {
+            if (inetAddresses.size() > 0) {
+                Collections.shuffle(inetAddresses, new Random(System.currentTimeMillis()));
                 return inetAddresses;
             }
         }
         try {
-            return Arrays.asList(InetAddress.getAllByName(hostname));
+            inetAddresses = Arrays.asList(InetAddress.getAllByName(hostname));
+            Collections.shuffle(inetAddresses, new Random(System.currentTimeMillis()));
+            return inetAddresses;
         } catch (NullPointerException e) {
             UnknownHostException unknownHostException =
                     new UnknownHostException("Broken system behaviour for dns lookup of " + hostname);

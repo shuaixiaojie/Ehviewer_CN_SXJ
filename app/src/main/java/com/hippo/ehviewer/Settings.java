@@ -1379,11 +1379,29 @@ public class Settings {
     public static int DEFAULT_HISTORY_INFO_SIZE = 100;
 
     public static int getHistoryInfoSize() {
-        return getIntFromStr(KEY_HISTORY_INFO_SIZE, DEFAULT_HISTORY_INFO_SIZE) ;
+        int size = getIntFromStr(KEY_HISTORY_INFO_SIZE, DEFAULT_HISTORY_INFO_SIZE);
+        if (size<DEFAULT_HISTORY_INFO_SIZE){
+            setHistoryInfoSize(DEFAULT_HISTORY_INFO_SIZE);
+            return DEFAULT_HISTORY_INFO_SIZE;
+        }
+        return size;
     }
 
     public static void setHistoryInfoSize(int value) {
         putIntToStr(KEY_HISTORY_INFO_SIZE, value);
+    }
+
+    public static final String KEY_DOWNLOAD_TIMEOUT = "download_timeout";
+
+    public static int DEFAULT_DOWNLOAD_TIMEOUT = 0;
+
+    public static int getDownloadTimeout() {
+        int size = getIntFromStr(KEY_DOWNLOAD_TIMEOUT, DEFAULT_DOWNLOAD_TIMEOUT);
+        return Math.max(size, DEFAULT_DOWNLOAD_TIMEOUT);
+    }
+
+    public static void setDownloadTimeout(int value) {
+        putIntToStr(KEY_DOWNLOAD_TIMEOUT, value);
     }
 
 }

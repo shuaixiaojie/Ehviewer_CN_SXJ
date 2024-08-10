@@ -1,6 +1,50 @@
 # [感谢名单](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/blob/BiLi_PC_Gamer/feedauthor/thankyou.md) 
 # [常见问题汇总](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/blob/BiLi_PC_Gamer/feedauthor/EhviewerIssue.md)
 
+# 2024/08/01 :
+ ###  新版发布1.9.8.5（如果出现问题请覆盖安装旧版本）
+ ###  更新host文件
+ ###  新增host地址随机调用
+ ###  出于下载稳定性考虑，对于存在新版的画廊，不再提供覆盖下载，为了避免下载按钮的逻辑混乱，在有新版本的画廊中，提供了一个新的按钮供用户前往新版本
+ ###  修复只用音量键翻页时，页面会在翻过随机数量的页面后重新回到初始页面的问题
+ ###  删除历史记录上限选择列表中的无用选项
+ ###  修复了档案下载完成后下载标签列表对应档案分组总数没有加1的问题
+ ###  修复了普通下载任务创建后下载标签列表对应分组总数没有加1的问题
+ ###  优化下载列表悬浮按钮位置以防止遮挡开始下载按钮
+ ###  修复下载列表随机浏览可能会导致app奔溃的问题
+ ###  下载超时计数器从CountDownTimer变更为Timer，以避免内存泄漏风险
+
+[//]: # (   点击前往下载：[EhViewer &#40;20.8 MB&#41;]&#40;https://appteka.store/app/4c5r180827&#41;   )
+   点击前往下载：[Microsoft App Center](install.appcenter.ms/users/xiaojieonly/apps/com.xjs.ehviewer/distribution_groups/let's%20roll)   
+   点击前往下载：[百度云](https://pan.baidu.com/s/10QXSnVi9wFJJ8VJC66-B1w)  密码:bc1w   
+   点击前往下载（电脑端可正常下载）：[蓝奏云](https://wwi.lanzouj.com/ipD4h266eqch)  密码:hq0c   
+   点击前往下载：[github](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/releases)    
+   点击前往赏饭：[要饭嘛不寒掺](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/blob/BiLi_PC_Gamer/feedauthor/support.md)    
+   Torrent链接：magnet:?xt=urn:btih:a7c51cab0345012f1818dd2c7c588687f440124c&dn=EhViewer-1.9.8.4.apk   
+   Telegram群:https://t.me/+WyclP8pPlk-JfbwS    
+   Telegram通知群:https://t.me/Ehviewer_xiaojieonly_channel
+
+# 2024/07/01 :     
+ ###  新版发布1.9.8.4（如果出现问题请覆盖安装旧版本）   
+ ###  修复历史记录需要重新设置才能显示的问题   
+ ###  新增图片请求链接校验，以防止在h@h服务器被不法分子劫持后导致的涉政、涉毒、涉赌及邪教等极端或影响E站及APP稳定性的内容的出现   
+ ###  下载列表添加随机浏览功能   
+ ###  改善收藏按鈕   
+ ###  新增图片搜索上传地址host   
+ ###  图片搜索优化   
+ ###  历史记录默认值从0修改为100,去除无上限选项，为了流畅度考虑，现在的历史记录上限为20000   
+ ###  新增下载超时时间设置，用于设置每张图片的最大下载时限，默认不设限，可在'设置-下载'内进行设置   
+ ###  新增下载速度归零超时放弃功能，现在下载速度为0超过30秒会主动放弃当前下载的图片   
+ ###  浏览画廊图片时，为阅读进度文本添加黑色描边   
+   点击前往下载：[Microsoft App Center](install.appcenter.ms/users/xiaojieonly/apps/com.xjs.ehviewer/distribution_groups/let's%20roll)   
+   点击前往下载：[EhViewer (20.8 MB)](https://appteka.store/app/4c5r180827)   
+   点击前往下载：[百度云](https://pan.baidu.com/s/1FVBOwj7FrJ2n42wa9YkV-Q)  密码:cah3   
+   点击前往下载（电脑端可正常下载）：[蓝奏云](https://wwb.lanzouj.com/iIA9u238xp0h)  密码:g7vx   
+   点击前往下载：[github](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/releases)    
+   点击前往赏饭：[要饭嘛不寒掺](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/blob/BiLi_PC_Gamer/feedauthor/support.md)    
+   Torrent链接：magnet:?xt=urn:btih:a7c51cab0345012f1818dd2c7c588687f440124c&dn=EhViewer-1.9.8.4.apk   
+   Telegram群:https://t.me/+WyclP8pPlk-JfbwS    
+   Telegram通知群:https://t.me/Ehviewer_xiaojieonly_channel    
 
 # 2024/06/01 :  祝大家儿童节快乐~~~
  ###  新版发布1.9.8.1（如果出现问题请覆盖安装旧版本）   
@@ -9,6 +53,7 @@
  ###  新增云端收藏当前数据随机挑选功能   
  ###  新增画廊列表当前数据随机挑选功能   
    点击前往下载：[Microsoft App Center](install.appcenter.ms/users/xiaojieonly/apps/com.xjs.ehviewer/distribution_groups/let's%20roll)   
+   点击前往下载：[EhViewer (20.8 MB)](https://appteka.store/app/ec4r177414)   
    点击前往下载：[百度云](https://pan.baidu.com/s/1cJ-h0fXcs9j8ChZOIDQcow)  密码:zr7m   
    点击前往下载（电脑端可正常下载）：[蓝奏云](https://wwb.lanzouj.com/iFmqD20gj3kb)  密码:d2ou   
    点击前往下载：[github](https://github.com/xiaojieonly/Ehviewer_CN_SXJ/releases)    
@@ -180,11 +225,25 @@ The apk is in app\build\outputs\apk
 
 # Thanks
 
+感谢Ehviewer奠基人[Hippo/seven332](https://github.com/seven332)    
+Thanks to [Hippo/seven332](https://github.com/seven332), the founder of Ehviewer    
+
 本项目受到了诸多开源项目的帮助  
-感谢Ehviewer奠基人[Hippo/seven332](https://github.com/seven332)
+This project has received help from many open source projects  
 
+这是部分库
 Here is the libraries  
-Thanks to [Hippo/seven332](https://github.com/seven332), the founder of Ehviewer
-
 - [AOSP](http://source.android.com/)
-- [android-advancedrecyclerview](https://github.com/h6a
+- [android-advancedrecyclerview](https://github.com/h6ah4i/android-advancedrecyclerview)
+- [Apache Commons Lang](https://commons.apache.org/proper/commons-lang/)
+- [apng](http://apng.sourceforge.net/)
+- [giflib](http://giflib.sourceforge.net)
+- [greenDAO](https://github.com/greenrobot/greenDAO)
+- [jsoup](https://github.com/jhy/jsoup)
+- [libjpeg-turbo](http://libjpeg-turbo.virtualgl.org/)
+- [libpng](http://www.libpng.org/pub/png/libpng.html)
+- [okhttp](https://github.com/square/okhttp)
+- [roaster](https://github.com/forge/roaster)
+- [ShowcaseView](https://github.com/amlcurran/ShowcaseView)
+- [Slabo](https://github.com/TiroTypeworks/Slabo)
+- [TagSoup](http://home.ccil.org/~cowan/tagsoup/)

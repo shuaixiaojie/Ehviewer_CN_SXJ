@@ -53,12 +53,14 @@ public class DownloadFragment extends PreferenceFragment implements
 
         Preference mediaScan = findPreference(Settings.KEY_MEDIA_SCAN);
         Preference imageResolution = findPreference(Settings.KEY_IMAGE_RESOLUTION);
+        Preference downloadTimeout = findPreference(Settings.KEY_DOWNLOAD_TIMEOUT);
         mDownloadLocation = findPreference(KEY_DOWNLOAD_LOCATION);
 
         onUpdateDownloadLocation();
 
         mediaScan.setOnPreferenceChangeListener(this);
         imageResolution.setOnPreferenceChangeListener(this);
+        downloadTimeout.setOnPreferenceChangeListener(this);
 
         if (mDownloadLocation != null) {
             mDownloadLocation.setOnPreferenceClickListener(this);
@@ -201,7 +203,20 @@ public class DownloadFragment extends PreferenceFragment implements
                 Settings.putImageResolution((String) newValue);
             }
             return true;
+        }else if (Settings.KEY_DOWNLOAD_TIMEOUT.equals(key)) {
+            if (newValue instanceof String) {
+                Settings.setDownloadTimeout(toTimeoutTime(newValue));
+            }
+            return true;
         }
         return false;
+    }
+
+    private int toTimeoutTime(Object newValue) {
+        try{
+            return Integer.parseInt(newValue.toString());
+        }catch (NumberFormatException e){
+            return 0;
+        }
     }
 }

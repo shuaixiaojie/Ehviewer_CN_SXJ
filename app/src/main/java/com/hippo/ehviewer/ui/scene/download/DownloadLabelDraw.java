@@ -23,6 +23,7 @@ import com.hippo.yorozuya.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DownloadLabelDraw {
     private final LayoutInflater inflater;
@@ -112,8 +113,8 @@ public class DownloadLabelDraw {
             downloadLabelList.add(new DownloadLabelItem(label, downloadManager.getLabelCount(label)));
         }
 
-        ListView listView = (ListView) view.findViewById(R.id.list_view);
-        DownloadLabelAdapter adapter = new DownloadLabelAdapter(scene.getEHContext(), R.layout.item_download_label_list, downloadLabelList);
+        listView = (ListView) view.findViewById(R.id.list_view);
+        DownloadLabelAdapter adapter = new DownloadLabelAdapter(Objects.requireNonNull(scene.getEHContext()), R.layout.item_download_label_list, downloadLabelList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
@@ -164,7 +165,7 @@ public class DownloadLabelDraw {
             downloadLabelList.add(new DownloadLabelItem(label, downloadManager.getLabelCount(label)));
         }
 
-        DownloadLabelAdapter adapter = new DownloadLabelAdapter(scene.getEHContext(), R.layout.item_download_label_list, downloadLabelList);
+        DownloadLabelAdapter adapter = new DownloadLabelAdapter(Objects.requireNonNull(scene.getEHContext()), R.layout.item_download_label_list, downloadLabelList);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {

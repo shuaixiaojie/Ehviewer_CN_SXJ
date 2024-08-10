@@ -22,6 +22,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.CountDownTimer;
 import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
@@ -79,6 +80,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -164,6 +167,10 @@ public final class SpiderQueen implements Runnable {
     private volatile int mDownloadPage = -1;
     private final AtomicReference<String> showKey = new AtomicReference<>();
 
+    private final int downloadTimeout;
+
+    private long receiveBytesBefore;
+
     private SpiderQueen(EhApplication application, @NonNull GalleryInfo galleryInfo) {
         mHttpClient = EhApplication.getOkHttpClient(application);
         mHttpImageClient = EhApplication.getImageOkHttpClient(application);
@@ -182,6 +189,7 @@ public final class SpiderQueen implements Runnable {
                 0, TimeUnit.SECONDS, new LinkedBlockingDeque<>(),
                 new PriorityThreadFactory(SpiderWorker.class.getSimpleName(), Process.THREAD_PRIORITY_BACKGROUND));
         mDownloadDelay = Settings.getDownloadDelay();
+        downloadTimeout = Settings.getDownloadTimeout();
     }
 
     @UiThread
@@ -230,6 +238,7 @@ public final class SpiderQueen implements Runnable {
         }
         return startPage;
     }
+
     @UiThread
     public static void releaseSpiderQueen(@NonNull SpiderQueen queen, @Mode int mode) {
         OSUtils.checkMainLoop();
@@ -594,14 +603,14 @@ public final class SpiderQueen implements Runnable {
                 return;
             }
 
-           try {
-               for (; mWorkerCount < mWorkerMaxCount; mWorkerCount++) {
-                   mWorkerPoolExecutor.execute(new SpiderWorker());
-               }
-           }catch (OutOfMemoryError outOfMemoryError){
-               FirebaseCrashlytics.getInstance().recordException(outOfMemoryError);
-               notifyFinish();
-           }
+            try {
+                for (; mWorkerCount < mWorkerMaxCount; mWorkerCount++) {
+                    mWorkerPoolExecutor.execute(new SpiderWorker());
+                }
+            } catch (OutOfMemoryError outOfMemoryError) {
+                FirebaseCrashlytics.getInstance().recordException(outOfMemoryError);
+                notifyFinish();
+            }
         }
     }
 
@@ -670,7 +679,6 @@ public final class SpiderQueen implements Runnable {
             IOUtils.closeQuietly(os);
         }
     }
-
 
     @Nullable
     public String getExtension(int index) {
@@ -1126,6 +1134,9 @@ public final class SpiderQueen implements Runnable {
     }
 
     private class SpiderWorker implements Runnable {
+        private Timer downloadSpeedZeroTimeCount;
+
+        private boolean cancelDownload = false;
 
         private final long mGid;
 
@@ -1237,7 +1248,6 @@ public final class SpiderQueen implements Runnable {
                         }
                     }
                 }
-
                 if (imageUrl == null) {
                     if (localShowKey == null) {
                         error = "ShowKey error";
@@ -1294,7 +1304,7 @@ public final class SpiderQueen implements Runnable {
                     }
 
                     Call call = mHttpImageClient.newBuilder()
-                            .callTimeout(0, TimeUnit.SECONDS).build()
+                            .callTimeout(30, TimeUnit.SECONDS).build()
                             .newCall(new EhRequestBuilder(targetImageUrl, referer).build());
                     Response response;
                     try {
@@ -1302,7 +1312,7 @@ public final class SpiderQueen implements Runnable {
                         targetImageUrl = response.header("location");
                     } catch (IOException e) {
                         error = "TargetImageUrl error";
-                        IOException ioException = new IOException("原图链接获取失败",e);
+                        IOException ioException = new IOException("原图链接获取失败", e);
                         FirebaseCrashlytics.getInstance().recordException(ioException);
                         break;
                     }
@@ -1321,16 +1331,31 @@ public final class SpiderQueen implements Runnable {
                 // Download image
                 InputStream is = null;
                 try {
+
                     if (DEBUG_LOG) {
                         Log.d(TAG, "Start download image " + index);
                     }
 
                     // disable Call Timeout for image-downloading requests
                     Call call = mHttpClient.newBuilder()
-                            .callTimeout(0, TimeUnit.SECONDS).build()
+                            .callTimeout(downloadTimeout, TimeUnit.SECONDS).build()
                             .newCall(new EhRequestBuilder(targetImageUrl, referer).build());
                     Response response = call.execute();
                     ResponseBody responseBody = response.body();
+
+                    String responseUrl = null;
+                    if (response.networkResponse() != null) {
+                        responseUrl = response.networkResponse().request().url().toString();
+                    } else if (response.cacheResponse() != null) {
+                        responseUrl = response.cacheResponse().request().url().toString();
+                    }
+                    // 反劫持校验
+                    if (!targetImageUrl.equals(responseUrl)) {
+                        error = "链接疑似被劫持\nThe link is suspected to be hijacked";
+                        response.close();
+                        forceHtml = true;
+                        continue;
+                    }
 
                     if (response.code() >= 400) {
                         // Maybe 404
@@ -1387,6 +1412,25 @@ public final class SpiderQueen implements Runnable {
                             // Update page percent
                             if (contentLength > 0) {
                                 mPagePercentMap.put(index, (float) receivedSize / contentLength);
+                            }
+                            if (receivedSize == receiveBytesBefore) {
+                                if (downloadSpeedZeroTimeCount == null) {
+                                    try {
+                                        downloadSpeedZeroTimeCount = new Timer();
+                                        cancelDownload = false;
+                                        downloadSpeedZeroTimeCount.schedule(new TimeCount(), 3000);
+                                    } catch (Throwable e) {
+                                        FirebaseCrashlytics.getInstance().recordException(e);
+                                    }
+                                }
+                                if (cancelDownload) {
+                                    cancelTimeCount();
+                                    response.close();
+                                    break;
+                                }
+                            } else {
+                                cancelTimeCount();
+                                receiveBytesBefore = receivedSize;
                             }
                             // Notify listener
                             notifyPageDownload(index, contentLength, receivedSize, bytesRead);
@@ -1791,6 +1835,14 @@ public final class SpiderQueen implements Runnable {
             return false;
         }
 
+        private void cancelTimeCount() {
+            if (downloadSpeedZeroTimeCount != null) {
+                downloadSpeedZeroTimeCount.cancel();
+                downloadSpeedZeroTimeCount = null;
+            }
+            cancelDownload = false;
+        }
+
         @Override
         @SuppressWarnings("StatementWithEmptyBody")
         public void run() {
@@ -1815,10 +1867,22 @@ public final class SpiderQueen implements Runnable {
             if (finish) {
                 notifyFinish();
             }
-
+            cancelTimeCount();
             if (DEBUG_LOG) {
                 Log.i(TAG, Thread.currentThread().getName() + ": end");
             }
+        }
+
+        private class TimeCount extends TimerTask {
+            public TimeCount() {
+
+            }
+
+            @Override
+            public void run() {
+                cancelDownload = true;
+            }
+
         }
     }
 

@@ -688,7 +688,9 @@ public class EhDB {
     public static synchronized void insertQuickSearch(QuickSearch quickSearch) {
         QuickSearchDao dao = sDaoSession.getQuickSearchDao();
         quickSearch.id = null;
-        quickSearch.time = System.currentTimeMillis();
+        if (quickSearch.time==0L){
+            quickSearch.time = System.currentTimeMillis();
+        }
         quickSearch.id = dao.insert(quickSearch);
     }
 
@@ -775,8 +777,9 @@ public class EhDB {
             info.time = System.currentTimeMillis();
             dao.insert(info);
             List<HistoryInfo> list;
-            if (MAX_HISTORY_COUNT == -1) {
-                list = new ArrayList<>();
+            if (MAX_HISTORY_COUNT < 1) {
+                list = dao.queryBuilder().orderDesc(HistoryDao.Properties.Time)
+                        .limit(-1).offset(100).list();
             } else {
                 list = dao.queryBuilder().orderDesc(HistoryDao.Properties.Time)
                         .limit(-1).offset(MAX_HISTORY_COUNT).list();
