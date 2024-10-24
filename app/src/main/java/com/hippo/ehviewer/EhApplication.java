@@ -52,7 +52,7 @@ import com.hippo.ehviewer.client.data.userTag.UserTagList;
 import com.hippo.ehviewer.download.DownloadManager;
 import com.hippo.ehviewer.spider.SpiderDen;
 import com.hippo.ehviewer.ui.CommonOperations;
-import com.hippo.image.Image;
+import com.hippo.lib.image.Image;
 import com.hippo.image.ImageBitmap;
 import com.hippo.network.EhSSLSocketFactory;
 import com.hippo.network.EhSSLSocketFactoryLowSDK;
@@ -93,7 +93,7 @@ import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.OkHttpClient;
 
-public class EhApplication extends RecordingApplication {
+public class EhApplication extends RecordingApplication{
 
     private static final String TAG = EhApplication.class.getSimpleName();
     private static final String KEY_GLOBAL_STUFF_NEXT_ID = "global_stuff_next_id";
@@ -174,7 +174,7 @@ public class EhApplication extends RecordingApplication {
         EhDB.initialize(this);
         EhEngine.initialize();
         BitmapUtils.initialize(this);
-        Image.initialize(this);
+//        Image.initialize(this);
         // 实际作用不确定，但是与64位应用有冲突
 //        A7Zip.loadLibrary(A7ZipExtractLite.LIBRARY, libname -> ReLinker.loadLibrary(EhApplication.this, libname));
         // 64位适配
@@ -286,7 +286,7 @@ public class EhApplication extends RecordingApplication {
                             Debug.getNativeHeapAllocatedSize(), false));
                 }
                 if (DEBUG_PRINT_IMAGE_COUNT) {
-                    Log.i(TAG, "Image count: " + Image.getImageCount());
+//                    Log.i(TAG, "Image count: " + Image.getImageCount());
                 }
                 SimpleHandler.getInstance().postDelayed(this, DEBUG_PRINT_INTERVAL);
             }

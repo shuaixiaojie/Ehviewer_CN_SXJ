@@ -26,9 +26,9 @@ android {
 
     defaultConfig {
         applicationId "com.xjs.ehviewer"
-        minSdkVersion 23
+        minSdkVersion 28
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 29
+        targetSdkVersion 31
         versionCode 111
         versionName "1.9.8.8"
         vectorDrawables.useSupportLibrary = true
@@ -123,6 +123,7 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-analytics:21.5.1'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.core:core:1.13.1"
     implementation "androidx.activity:activity:1.2.4"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.biometric:biometric:1.2.0-alpha01'
@@ -163,14 +164,14 @@ dependencies {
 //    implementation 'com.github.xiaojieonly:Pagination_Sxj:d8253ceefd6b02b73f9e9485cbb7dd89a6b89ba3'
 //    为方便扩展代码直接迁移至项目内
 //    implementation 'com.github.seven332:glgallery:0.1.2'
-    implementation 'com.github.seven332:glview:0.1.0'
-    implementation 'com.github.seven332:glview-image:0.1.0'
+//    implementation 'com.github.seven332:glview:0.1.0'
+//    implementation 'com.github.seven332:glview-image:0.1.0'
     implementation 'com.github.seven332:hotspot:0.1.0'
     implementation 'com.github.seven332:image:0.1.12'
     implementation 'com.github.seven332:refreshlayout:0.1.0'
     implementation 'com.github.seven332:ripple:0.1.2'
     implementation 'com.github.seven332:streampipe:0.1.0'
-    implementation 'com.github.seven332:tuxiang:0.1.6'
+    implementation 'com.github.seven332:tuxiang:0.1.2'
     implementation 'com.github.seven332:unifile:9ec57bcd8f'
     implementation 'com.github.seven332:yorozuya:0.1.2'
     implementation 'com.github.seven332:yorozuya-thread:0.1.1'
