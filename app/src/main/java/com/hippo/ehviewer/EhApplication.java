@@ -53,7 +53,7 @@ import com.hippo.ehviewer.download.DownloadManager;
 import com.hippo.ehviewer.spider.SpiderDen;
 import com.hippo.ehviewer.ui.CommonOperations;
 import com.hippo.lib.image.Image;
-import com.hippo.image.ImageBitmap;
+import com.hippo.lib.image.ImageBitmap;
 import com.hippo.network.EhSSLSocketFactory;
 import com.hippo.network.EhSSLSocketFactoryLowSDK;
 import com.hippo.network.EhX509TrustManager;
@@ -174,7 +174,7 @@ public class EhApplication extends RecordingApplication{
         EhDB.initialize(this);
         EhEngine.initialize();
         BitmapUtils.initialize(this);
-//        Image.initialize(this);
+        Image.initialize(this);
         // 实际作用不确定，但是与64位应用有冲突
 //        A7Zip.loadLibrary(A7ZipExtractLite.LIBRARY, libname -> ReLinker.loadLibrary(EhApplication.this, libname));
         // 64位适配

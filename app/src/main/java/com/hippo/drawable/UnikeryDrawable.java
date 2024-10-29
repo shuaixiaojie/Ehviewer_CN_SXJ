@@ -22,9 +22,9 @@ import androidx.annotation.NonNull;
 import com.hippo.conaco.Conaco;
 import com.hippo.conaco.ConacoTask;
 import com.hippo.conaco.Unikery;
-import com.hippo.image.ImageBitmap;
-import com.hippo.image.ImageDrawable;
-import com.hippo.image.RecycledException;
+import com.hippo.lib.image.ImageBitmap;
+import com.hippo.lib.image.ImageDrawable;
+import com.hippo.lib.image.RecycledException;
 import com.hippo.widget.ObservedTextView;
 
 public class UnikeryDrawable extends WrapDrawable implements Unikery<ImageBitmap>,

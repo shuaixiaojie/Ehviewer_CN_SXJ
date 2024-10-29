@@ -271,9 +271,11 @@ public final class Image {
 
     public static void initialize(Context context) {
         ReLinker.loadLibrary(context, "image");
+//        System.loadLibrary("ehviewer");
     }
 
     private static native Image nativeDecode(InputStream is, boolean partially);
+//    private static native Image nativeDecode3(InputStream is, boolean partially);
 
     private static native Image nativeCreate(Bitmap bitmap);
 

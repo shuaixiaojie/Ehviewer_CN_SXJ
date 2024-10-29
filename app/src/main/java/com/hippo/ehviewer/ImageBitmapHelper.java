@@ -19,7 +19,7 @@ package com.hippo.ehviewer;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.hippo.conaco.ValueHelper;
-import com.hippo.image.ImageBitmap;
+import com.hippo.lib.image.ImageBitmap;
 import com.hippo.streampipe.InputStreamPipe;
 import java.io.IOException;
 

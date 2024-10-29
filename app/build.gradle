@@ -10,7 +10,7 @@ if (file('google-services.json').exists()) {
 android {
     namespace 'com.hippo.ehviewer'
     testNamespace 'com.hippo.ehviewer.debug'
-    compileSdkVersion 31
+    compileSdk 33
 //    buildToolsVersion "30.0.3"
 //    ndkVersion '23.1.7779620'
 
@@ -86,6 +86,15 @@ android {
 
 }
 
+//task javah(type: Exec, dependsOn: 'compileReleaseJavaWithJavac') {
+//task javah(type: Exec) {
+//    char separator = Os.isFamily(Os.FAMILY_WINDOWS) ? ';' : ':'
+//    commandLine 'javah', '-jni',
+//            '-d', 'javah',
+//            '-cp', "${android.getSdkDirectory().getAbsolutePath()}/platforms/android-31/android.jar${separator}build/intermediates/javac/release/compileReleaseJavaWithJavac/classes",
+//            'com.hippo.lib.image.Image'
+//}
+
 //task copyNotice(type: Copy) {
 //    from '../NOTICE.html'
 //    into './src/main/assets'
@@ -123,7 +132,7 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-analytics:21.5.1'
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "androidx.core:core:1.13.1"
+//    implementation "androidx.core:core:1.13.1"
     implementation "androidx.activity:activity:1.2.4"
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.biometric:biometric:1.2.0-alpha01'
@@ -167,7 +176,7 @@ dependencies {
 //    implementation 'com.github.seven332:glview:0.1.0'
 //    implementation 'com.github.seven332:glview-image:0.1.0'
     implementation 'com.github.seven332:hotspot:0.1.0'
-    implementation 'com.github.seven332:image:0.1.12'
+//    implementation 'com.github.seven332:image:0.1.12'
     implementation 'com.github.seven332:refreshlayout:0.1.0'
     implementation 'com.github.seven332:ripple:0.1.2'
     implementation 'com.github.seven332:streampipe:0.1.0'

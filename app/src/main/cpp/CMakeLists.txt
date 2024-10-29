@@ -6,7 +6,11 @@
 #cmake_minimum_required(VERSION 3.4.1)
 cmake_minimum_required(VERSION 3.14)
 
+#project(root)
 project("ehviewer")
+
+add_subdirectory(jni)
+
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -14,12 +18,10 @@ project("ehviewer")
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
-        ehviewer
-
+#        root
+        "ehviewer"
         # Sets the library as a shared library.
         SHARED
-        image/java_wrapper.c
-        gifutils.c
         gif/native-lib.cpp
         gif/dgif_lib.c
         gif/gifalloc.c)

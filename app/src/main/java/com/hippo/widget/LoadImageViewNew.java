@@ -40,9 +40,9 @@ import com.hippo.conaco.Unikery;
 import com.hippo.drawable.PreciselyClipDrawable;
 import com.hippo.ehviewer.EhApplication;
 import com.hippo.ehviewer.R;
-import com.hippo.image.ImageBitmap;
-import com.hippo.image.ImageDrawable;
-import com.hippo.image.RecycledException;
+import com.hippo.lib.image.ImageBitmap;
+import com.hippo.lib.image.ImageDrawable;
+import com.hippo.lib.image.RecycledException;
 import com.hippo.util.DrawableManager;
 
 import java.lang.annotation.Retention;
