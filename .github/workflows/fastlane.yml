@@ -3,9 +3,9 @@ name: Validate Fastlane metadata
 on:
   workflow_dispatch:
   push:
-      branches: [ "master" ]
+      branches: [ "BiLi_PC_Gamer" ]
   pull_request:
-      branches: [ "master" ]
+      branches: [ "BiLi_PC_Gamer" ]
 
 jobs:
   go:
