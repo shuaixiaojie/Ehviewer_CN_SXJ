@@ -60,7 +60,7 @@
         app:allowDividerAbove="true" />
 
     <com.hippo.preference.SwitchPreference
-        android:defaultValue="false"
+        android:defaultValue="true"
         android:key="close_auto_updates"
         android:title="@string/settings_close_automatic_updates" />
 
